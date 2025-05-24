@@ -6,9 +6,15 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+	'./src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
   	extend: {
+		backgroundImage: {
+        
+        'hero-gradient': 'linear-gradient(to right, #a78bfa30, #ec489930, #ef444430)', // Using your hex values
+        
+      	},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
