@@ -1,3 +1,4 @@
+// src/components/ThemeToggle.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  // Remove 'theme' from here as it's not used in your current logic
+  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
