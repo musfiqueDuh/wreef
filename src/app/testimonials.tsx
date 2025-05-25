@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
+import Image from "next/image"; // <--- ADDED: Import Image component
 
 const testimonials = [
   {
@@ -74,14 +75,18 @@ export default function WhatYouGetSection() {
               ))}
             </div>
 
+            {/* FIX 1: Use HTML entity for the quote mark */}
             <p className="text-muted-foreground text-sm sm:text-base mb-4">
-              "{t.quote}"
+              &quot;{t.quote}&quot;
             </p>
 
             <div className="flex items-center gap-3 text-left">
-              <img
+              {/* FIX 2: Use Next.js Image component */}
+              <Image
                 src={t.avatar}
                 alt={t.name}
+                width={40} // Added explicit width (matching w-10 class)
+                height={40} // Added explicit height (matching h-10 class)
                 className="w-10 h-10 rounded-full object-cover border"
               />
               <div>
