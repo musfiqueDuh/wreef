@@ -10,6 +10,19 @@ export default {
   ],
   theme: {
   	extend: {
+		animation: {
+        "pulse-border": "pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      keyframes: {
+        "pulse-border": {
+          "0%, 100%": {
+            "border-color": "rgba(var(--border), 0.5)", // Adjust based on your border color variable or a fixed color
+          },
+          "50%": {
+            "border-color": "rgba(var(--primary), 1)", // Use your primary color for the pulse
+          },
+        },
+      },
 		backgroundImage: {
         
         'hero-gradient': 'linear-gradient(to right, #a78bfa30, #ec489930, #ef444430)', // Using your hex values

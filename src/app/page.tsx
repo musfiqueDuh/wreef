@@ -1,14 +1,16 @@
-
 "use client";
 
 import Image from "next/image";
 import { Button } from "../components/ui/button";
 import { motion } from "framer-motion";
 import WYGSection from '../app/wyg';
+import Testimonial from "../app/testimonials";
+import Cta from "../app/cta";  // Corrected import name to PascalCase
+import Footer from "../app/footer"; 
 
 export default function Home() {
   return (
-    <>
+    <> {/* Removed the extra fragment here */}
       <section className="min-h-screen flex flex-col-reverse sm:flex-row items-center justify-between px-6 sm:px-12 py-24 gap-12 bg-background text-foreground">
         {/* LEFT TEXT BLOCK */}
         <motion.div
@@ -40,12 +42,16 @@ export default function Home() {
             width={520}
             height={420}
             className="rounded-2xl shadow-2xl border border-border"
+            priority
           />
         </motion.div>
       </section>
 
       {/* Render the WYGSection component here */}
       <WYGSection />
+      <Testimonial />
+      <Cta />
+      <Footer /> {/* Corrected component usage to PascalCase */}
     </>
   );
 }
