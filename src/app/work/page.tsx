@@ -4,7 +4,21 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const projects = [
+// Define a type for a single case study item
+interface CaseStudyItem {
+  src: string;
+  caption: string;
+}
+
+// Define a type for a single project
+interface Project {
+  title: string;
+  category: string;
+  image: string;
+  caseStudies: CaseStudyItem[];
+}
+
+const projects: Project[] = [ // Explicitly type the projects array
   {
     title: "Orbit SaaS Redesign",
     category: "UI/UX Design",
@@ -35,11 +49,14 @@ const projects = [
 ];
 
 export default function PortfolioSection() {
-  const [selected, setSelected] = useState(null);
+  // Explicitly tell useState that 'selected' can be either a 'Project' or 'null'
+  const [selected, setSelected] = useState<Project | null>(null);
   const [index, setIndex] = useState(0);
-  const timerRef = useRef(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null); // Type for timerRef
 
   const next = () => {
+    // The `if (!selected) return;` check already handles the null case,
+    // so TypeScript now correctly understands 'selected' is a 'Project' here.
     if (!selected) return;
     setIndex((i) => (i + 1) % selected.caseStudies.length);
   };
@@ -51,19 +68,35 @@ export default function PortfolioSection() {
 
   useEffect(() => {
     if (selected) {
+      // Clear any existing timer before setting a new one
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
       timerRef.current = setInterval(() => {
         setIndex((i) => (i + 1) % selected.caseStudies.length);
       }, 5000);
+    } else {
+      // When selected is null, clear the timer
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null; // Reset ref
+      }
     }
-    return () => clearInterval(timerRef.current);
-  }, [selected]);
+    // Cleanup function for useEffect to clear the interval
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [selected, next]); // Add 'next' to dependencies to satisfy exhaustive-deps, though it's memoized implicitly or can be explicitly via useCallback
 
   useEffect(() => {
-    const handler = (e) => {
+    const handler = (e: TouchEvent) => { // Type the event
       if (!selected) return;
-      if (e.touches.length < 2) {
+      // Only consider single-touch gestures for swiping
+      if (e.touches.length === 1) {
         const start = e.touches[0].clientX;
-        const handleEnd = (endEvent) => {
+        const handleEnd = (endEvent: TouchEvent) => { // Type the event
           const end = endEvent.changedTouches[0].clientX;
           if (start - end > 50) next();
           else if (end - start > 50) prev();
@@ -72,8 +105,9 @@ export default function PortfolioSection() {
       }
     };
     window.addEventListener("touchstart", handler);
+    // Cleanup function for useEffect to remove the event listener
     return () => window.removeEventListener("touchstart", handler);
-  }, [selected]);
+  }, [selected, next, prev]); // Add 'next' and 'prev' to dependencies
 
   return (
     <section className="py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-background text-foreground">
@@ -131,19 +165,21 @@ export default function PortfolioSection() {
               exit={{ y: 40, scale: 0.98 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-background rounded-xl overflow-hidden shadow-xl max-w-3xl w-full max-h-[90vh]"
+              className="relative bg-background rounded-xl overflow-hidden shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col" // Added flex-col for proper layout
             >
-              <Image
-                src={selected.caseStudies[index].src}
-                alt={selected.title + ` slide ${index + 1}`}
-                width={1200}
-                height={800}
-                className="w-full object-contain"
-              />
-              <p className="text-sm text-muted-foreground text-center px-4 py-2 bg-muted">
+              <div className="relative flex-grow flex-shrink-0 overflow-hidden"> {/* Container for image to allow other elements to be outside its scroll */}
+                <Image
+                  src={selected.caseStudies[index].src}
+                  alt={selected.title + ` slide ${index + 1}`}
+                  width={1200}
+                  height={800}
+                  className="w-full h-full object-contain" // Use h-full object-contain for responsiveness
+                />
+              </div>
+              <p className="text-sm text-muted-foreground text-center px-4 py-2 bg-muted flex-shrink-0">
                 {selected.caseStudies[index].caption}
               </p>
-              <div className="flex justify-center gap-2 py-3">
+              <div className="flex justify-center gap-2 py-3 flex-shrink-0">
                 {selected.caseStudies.map((_, i) => (
                   <button
                     key={i}
