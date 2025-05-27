@@ -7,6 +7,7 @@ import WYGSection from '../app/wyg';
 import Testimonial from "../app/testimonials";
 import Cta from "../app/cta";  // Corrected import name to PascalCase
 import Footer from "../app/footer"; 
+import Bot from "../app/bot";
 
 export default function Home() {
   return (
@@ -47,7 +48,9 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Render the WYGSection component here */}
+     
+      
+      <Bot />
       <WYGSection />
       <Testimonial />
       <Cta />
