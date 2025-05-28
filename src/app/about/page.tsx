@@ -95,17 +95,17 @@ export default function AboutPage() {
           className="text-muted-foreground text-base sm:text-lg"
           {...fadeInParagraph}
         >
-          I’m Musfique, and design has been my second language for over 7 years. What started as a hobby quickly grew into a deep passion—one that led me through late nights of experimenting, freelance gigs that challenged me, and client stories that reminded me why creativity matters.
+          I&apos;m Musfique, and design has been my second language for over 7 years. What started as a hobby quickly grew into a deep passion—one that led me through late nights of experimenting, freelance gigs that challenged me, and client stories that reminded me why creativity matters.
         </motion.p>
       </SectionContainer>
 
       {/* Narrative Section */}
       <SectionContainer size="md" className="space-y-6">
         <motion.p {...slideInFromBottom(0.1)}>
-          My journey as a freelancer wasn’t always linear, but it was deeply rewarding. I collaborated with clients across industries, delivered impactful results, and earned appreciation from people, mentees, and organizations alike. Along the way, I also mentored university club members, further shaping my understanding of design's role in storytelling and transformation.
+          My journey as a freelancer wasn&apos;t always linear, but it was deeply rewarding. I collaborated with clients across industries, delivered impactful results, and earned appreciation from people, mentees, and organizations alike. Along the way, I also mentored university club members, further shaping my understanding of design&apos;s role in storytelling and transformation.
         </motion.p>
         <motion.p {...slideInFromBottom(0.2)}>
-          But freelancing also came with its limits—too solitary, too scattered, and not enough structure to scale the impact I wanted to create. That’s why I founded WreefX—a place where creativity meets strategy, and where we, as a team, bring clarity, consistency, and bold visual identity to every project.
+          But freelancing also came with its limits—too solitary, too scattered, and not enough structure to scale the impact I wanted to create. That&apos;s why I founded WreefX—a place where creativity meets strategy, and where we, as a team, bring clarity, consistency, and bold visual identity to every project.
         </motion.p>
       </SectionContainer>
 
@@ -118,10 +118,10 @@ export default function AboutPage() {
           What Makes WreefX Different
         </motion.h2>
         <motion.p className="text-muted-foreground mb-4" {...slideInFromBottom(0.1)}>
-          At WreefX, we do more than just design—we align vision with visuals. Whether it’s a fresh brand identity for a startup, motion design for a campaign, or strategic UI/UX for a growing business, we bring strategic thinking, compelling storytelling, and handcrafted design to the table.
+          At WreefX, we do more than just design—we align vision with visuals. Whether it&apos;s a fresh brand identity for a startup, motion design for a campaign, or strategic UI/UX for a growing business, we bring strategic thinking, compelling storytelling, and handcrafted design to the table.
         </motion.p>
         <motion.p className="text-muted-foreground" {...slideInFromBottom(0.2)}>
-          Our ideal clients are ambitious founders, small business owners, and growing brands who are tired of guesswork and crave a consistent, engaging, and professional presence. We help them stand out with clarity, confidence, and creativity. When you work with us, you don’t just get a design—you get a design partner.
+          Our ideal clients are ambitious founders, small business owners, and growing brands who are tired of guesswork and crave a consistent, engaging, and professional presence. We help them stand out with clarity, confidence, and creativity. When you work with us, you don&apos;t just get a design—you get a design partner.
         </motion.p>
       </SectionContainer>
 
@@ -170,11 +170,10 @@ export default function AboutPage() {
       {/* Metrics Section - Now with React Icons! */}
       <SectionContainer size="xl" className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center bg-muted p-8 rounded-2xl shadow-lg">
         {metrics.map((metric, i) => {
-          const IconComponent = metric.icon; // Get the React Icon component
+          const IconComponent = metric.icon;
           return (
             <motion.div key={i} {...slideInFromBottom(i * 0.1)}>
-              {/* Render the icon component directly */}
-              <IconComponent className="mx-auto mb-2 text-primary" size={40} /> {/* Added text-primary for color */}
+              <IconComponent className="mx-auto mb-2 text-primary" size={40} />
               <h3 className="text-4xl font-bold text-primary">{metric.value}</h3>
               <p className="text-muted-foreground text-sm">{metric.label}</p>
             </motion.div>
@@ -213,10 +212,10 @@ export default function AboutPage() {
           Ready to Elevate Your Brand?
         </motion.h3>
         <motion.p className="text-muted-foreground mb-6" {...slideInFromBottom(0.1)}>
-          WreefX isn’t just a design service—it’s a creative ally on your brand journey. Let’s build something meaningful, powerful, and visually unforgettable—together.
+          WreefX isn&apos;t just a design service—it&apos;s a creative ally on your brand journey. Let&apos;s build something meaningful, powerful, and visually unforgettable—together.
         </motion.p>
         <Button size="lg" className="text-base">
-          Let’s Create Something Amazing Together
+          Let&apos;s Create Something Amazing Together
         </Button>
       </SectionContainer>
     </section>
