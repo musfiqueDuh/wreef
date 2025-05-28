@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { motion } from "framer-motion";
 import { CheckCircle, Target } from "lucide-react";
 
@@ -132,11 +133,12 @@ export default function WhatYouGetSection() {
               transition={{ duration: 0.6, delay: 0.1 * index }}
               className="overflow-hidden rounded-2xl shadow-md border border-border bg-muted group relative"
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-[240px] object-cover"
-              />
+              <Image
+  src="/path/to/image.jpg"
+  alt="Description"
+  width={500} // IMPORTANT: You MUST provide width and height or use `fill` prop
+  height={300} // based on the actual dimensions of your image or desired layout
+/>
               <div className="p-5 relative z-10">
                 <h3 className="text-lg font-semibold mb-1">{item.title}</h3>
                 <p className="text-sm text-muted-foreground relative inline-block px-3 py-1 rounded-lg border bg-background backdrop-blur-md animate-pulse-border">
