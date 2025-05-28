@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="w-full px-4 py-4 border-b bg-background text-foreground">
       <nav className="mx-auto max-w-7xl flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">
-          wreef
+          wreefX
         </Link>
 
         {/* Desktop Menu */}

@@ -1,5 +1,4 @@
 
-
 import Image from "next/image";
 
 export default function ContactPage() {
@@ -70,7 +69,7 @@ export default function ContactPage() {
         {/* Right Image/Testimonial */}
         <div className="w-full lg:w-1/2 relative">
           <Image
-            src="/contact-hero.jpg"
+            src="/khaled-ali-fdXAHjNLuP0-unsplash.jpg"
             alt="Happy customer"
             width={800}
             height={600}

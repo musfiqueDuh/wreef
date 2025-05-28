@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react"; // Import useCallback
 import { motion, AnimatePresence } from "framer-motion";
 
 // Define a type for a single case study item
@@ -18,7 +18,7 @@ interface Project {
   caseStudies: CaseStudyItem[];
 }
 
-const projects: Project[] = [ // Explicitly type the projects array
+const projects: Project[] = [
   {
     title: "Orbit SaaS Redesign",
     category: "UI/UX Design",
@@ -49,30 +49,32 @@ const projects: Project[] = [ // Explicitly type the projects array
 ];
 
 export default function PortfolioSection() {
-  // Explicitly tell useState that 'selected' can be either a 'Project' or 'null'
   const [selected, setSelected] = useState<Project | null>(null);
   const [index, setIndex] = useState(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null); // Type for timerRef
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const next = () => {
-    // The `if (!selected) return;` check already handles the null case,
-    // so TypeScript now correctly understands 'selected' is a 'Project' here.
+  // Memoize the next function
+  const next = useCallback(() => {
     if (!selected) return;
     setIndex((i) => (i + 1) % selected.caseStudies.length);
-  };
+  }, [selected]); // Dependency: selected
 
-  const prev = () => {
+  // Memoize the prev function
+  const prev = useCallback(() => {
     if (!selected) return;
     setIndex((i) => (i - 1 + selected.caseStudies.length) % selected.caseStudies.length);
-  };
+  }, [selected]); // Dependency: selected
 
   useEffect(() => {
+    // Clear any existing timer before setting a new one
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+
     if (selected) {
-      // Clear any existing timer before setting a new one
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
       timerRef.current = setInterval(() => {
+        // Use the functional update form of setIndex when depending on 'index'
+        // to avoid putting 'index' in the dependency array of the effect.
         setIndex((i) => (i + 1) % selected.caseStudies.length);
       }, 5000);
     } else {
@@ -82,21 +84,21 @@ export default function PortfolioSection() {
         timerRef.current = null; // Reset ref
       }
     }
+
     // Cleanup function for useEffect to clear the interval
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
     };
-  }, [selected, next]); // Add 'next' to dependencies to satisfy exhaustive-deps, though it's memoized implicitly or can be explicitly via useCallback
+  }, [selected]); // Removed 'next' here as 'setIndex' functional update doesn't depend on it
 
   useEffect(() => {
-    const handler = (e: TouchEvent) => { // Type the event
+    const handler = (e: TouchEvent) => {
       if (!selected) return;
-      // Only consider single-touch gestures for swiping
       if (e.touches.length === 1) {
         const start = e.touches[0].clientX;
-        const handleEnd = (endEvent: TouchEvent) => { // Type the event
+        const handleEnd = (endEvent: TouchEvent) => {
           const end = endEvent.changedTouches[0].clientX;
           if (start - end > 50) next();
           else if (end - start > 50) prev();
@@ -105,9 +107,8 @@ export default function PortfolioSection() {
       }
     };
     window.addEventListener("touchstart", handler);
-    // Cleanup function for useEffect to remove the event listener
     return () => window.removeEventListener("touchstart", handler);
-  }, [selected, next, prev]); // Add 'next' and 'prev' to dependencies
+  }, [selected, next, prev]); // Keep next and prev here as they are memoized functions
 
   return (
     <section className="py-24 px-4 sm:px-6 md:px-8 lg:px-12 bg-background text-foreground">
@@ -165,15 +166,15 @@ export default function PortfolioSection() {
               exit={{ y: 40, scale: 0.98 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-background rounded-xl overflow-hidden shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col" // Added flex-col for proper layout
+              className="relative bg-background rounded-xl overflow-hidden shadow-xl max-w-3xl w-full max-h-[90vh] flex flex-col"
             >
-              <div className="relative flex-grow flex-shrink-0 overflow-hidden"> {/* Container for image to allow other elements to be outside its scroll */}
+              <div className="relative flex-grow flex-shrink-0 overflow-hidden">
                 <Image
                   src={selected.caseStudies[index].src}
                   alt={selected.title + ` slide ${index + 1}`}
                   width={1200}
                   height={800}
-                  className="w-full h-full object-contain" // Use h-full object-contain for responsiveness
+                  className="w-full h-full object-contain"
                 />
               </div>
               <p className="text-sm text-muted-foreground text-center px-4 py-2 bg-muted flex-shrink-0">
